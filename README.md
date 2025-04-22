@@ -1,6 +1,6 @@
 # To_Do_List
 
-How to Use Git for collaborative Work
+How to add collaborator to your repo to work on a project
 
 ## Description
 
