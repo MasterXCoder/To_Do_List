@@ -8,7 +8,7 @@ How to Use Git for collaborative Work
 
 ## Steps
 
-- Follow these steps to set up Git on your system:
+- Follow these steps to add collaborator to your repo:
 
 1. **Open and Create Repo:**
 Visit the [Git website](https://github.com/) and create repo for the project.
