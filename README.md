@@ -1,24 +1,25 @@
 # To_Do_List
 
-How to add collaborator to your repo to work on a project
-
 ## Description
+This project focuses on creating a simple yet efficient To-Do List application.
 
-<---Still left to decide--->
+## How to Add a Collaborator to Your Repository
 
-## Steps
+Follow these steps to add a collaborator to your GitHub repository and start collaborating on your project:
 
-- Follow these steps to add collaborator to your repo:
+### Steps
 
-1. **Open and Create Repo:**
-Visit the [Git website](https://github.com/) and create repo for the project.
+1. **Create the Repository**
+   - Visit the [GitHub website](https://github.com/) and create a repository for your project.
 
-2. **Add Collaborator:**
-   1. Go to repo setting.
-   2. Under Acess section click on collaborators.
-   3. Click on Add people and search for you companion.
+2. **Add Collaborators**
+   - Go to the **Settings** tab of your repository.
+   - Under the **Access** section, click on **Collaborators**.
+   - Click **Add people** and search for your collaborator's GitHub username or email address.
 
-3. **Acception of request:**
-   - A mail will be send to your companion in which he/she have to accept the invitation.
+3. **Accept the Invitation**
+   - An invitation email will be sent to your collaborator.
+   - They need to accept the invitation to gain access to the repository.
 
-Now your companion can acces to repo and you both can work together.
+### Final Note
+Once the invitation is accepted, your collaborator will have access to the repository, and your companion can now access the repo and you both can work together.
