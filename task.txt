@@ -1,0 +1,4 @@
+Thing to do:
+    1. Add functionality
+    2. Add features
+    3. Add Backend [optional] 
