@@ -1,0 +1,29 @@
+name: Greet New Contributor for To-Do List Manager
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  greet:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+    
+    - name: Greet new contributor
+      run: |
+        # Check if the actor (person opening the pull request) is one of the special users
+        if ${{ github.actor == 'Madhavv-Xd' }}; then
+          echo "Hello Madhavv-Xd, welcome to the To-Do List Manager project!"
+          echo "Thank you for your first contribution. We're glad to have you onboard!"
+        elif ${{ github.actor == 'Lucky-2006-18' }}; then
+          echo "Hello Lucky-2006-18, welcome to the To-Do List Manager project!"
+          echo "Thank you for your first contribution. We're glad to have you onboard!"
+        else
+          # Greet any user who opens the pull request
+          echo "Hello and welcome to the To-Do List Manager project, ${{ github.actor }}!"
+          echo "Thank you for your first contribution. We appreciate your help in managing tasks!"
+        fi
+#fi is the closing keyword for the if statement in shell scripting 
