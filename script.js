@@ -12,6 +12,11 @@ function addTask() {
   const listItem = document.createElement("li");
   listItem.textContent = taskText;
 
+  // Delete Button
+  listItem.onclick = function () {
+    taskList.removeChild(listItem);
+  };
+
   taskList.appendChild(listItem);
 
   taskInput.value = "";
