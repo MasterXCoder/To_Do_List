@@ -1,0 +1,6 @@
+Task: 
+    1. Add content
+    2. Add styling
+    3. Correct orientation
+    4. Make it Reponsive [optionally]
+    
