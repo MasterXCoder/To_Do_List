@@ -1,37 +1,60 @@
 body {
   font-family: Arial, sans-serif;
   background-color: #f5f5f5;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar {
+  background-color: #4CAF50;
+  overflow: hidden;
+  padding: 10px;
+  text-align: center;
+}
+
+.navbar a {
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.navbar a:hover {
+  background-color: #45a049;
 }
 
 .container {
   background: white;
+  margin: 40px auto;
   padding: 20px 30px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  width: 300px;
+  width: 350px;
   text-align: center;
 }
 
-.input-section {
+.input-section, .sort-section {
   margin-bottom: 20px;
 }
 
-#taskInput {
-  width: 70%;
+#taskInput, #prioritySelect {
   padding: 8px;
+  margin: 5px 0;
+  width: 65%;
+}
+
+#prioritySelect {
+  width: 30%;
 }
 
 button {
   padding: 8px 12px;
-  margin-left: 5px;
+  margin-top: 5px;
   background-color: #4CAF50;
   color: white;
   border: none;
   cursor: pointer;
+  border-radius: 4px;
 }
 
 button:hover {
@@ -45,8 +68,29 @@ ul {
 
 li {
   background: #eee;
-  margin: 5px 0;
+  margin: 8px 0;
   padding: 10px;
   border-radius: 4px;
   text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+li.completed {
+  text-decoration: line-through;
+  background: #d4edda;
+}
+
+li span {
+  flex-grow: 1;
+}
+
+.task-buttons button {
+  margin-left: 5px;
+  background-color: #ff4d4d;
+}
+
+.task-buttons button.complete-btn {
+  background-color: #4CAF50;
 }
