@@ -2,25 +2,26 @@ name: Greet New Contributor for To-Do List Manager
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened]  # Trigger the workflow when a pull request is opened
 
 jobs:
   greet:
-    runs-on: windows-latest
-
+    runs-on: windows-latest  # Run the job on a Windows runner
+    
     steps:
     - name: Check out code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v2  # This checks out the repository's code
 
     - name: Greet new contributor
       run: |
-        if [ "$GITHUB_ACTOR" = "Madhavv-Xd" ]; then
+        if ${{ github.actor == 'Madhavv-Xd' }}; then
           echo "Hello Madhavv-Xd, welcome to the To-Do List Manager project!"
           echo "Thank you for your first contribution. We're glad to have you onboard!"
-        elif [ "$GITHUB_ACTOR" = "Lucky-2006-18" ]; then
+        elif ${{ github.actor == 'Lucky-2006-18' }}; then
           echo "Hello Lucky-2006-18, welcome to the To-Do List Manager project!"
           echo "Thank you for your first contribution. We're glad to have you onboard!"
         else
-          echo "Hello and welcome to the To-Do List Manager project, $GITHUB_ACTOR!"
+          # Greet any user who opens the pull request
+          echo "Hello and welcome to the To-Do List Manager project, ${{ github.actor }}!"
           echo "Thank you for your first contribution. We appreciate your help in managing tasks!"
         fi
