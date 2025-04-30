@@ -1,41 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>To-Do List Manager</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo app</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
 </head>
 <body>
-  <nav class="navbar">
-    <a href="#">Home</a>
-    <a href="#">Completed</a>
-    <a href="#">Settings</a>
-  </nav>
+    <div id = "signup-container" style="display: none">
+        <h2>Sign up</h2>
+        <input type="text" placeholder="username" id="signup-username" required />
+        <input type="password" id = "signup-password" placeholder="password" required/>
+        <button onclick="signup()">Register</button>
 
-  <div class="container">
-    <h1>To-Do List 📝</h1>
-    <div class="input-section">
-      <input type="text" id="taskInput" placeholder="Add a new task">
-      <select id="prioritySelect">
-        <option value="Low">Low</option>
-        <option value="Medium">Medium</option>
-        <option value="High">High</option>
-      </select>
-      <button onclick="addTask()">Add</button>
+        <button onclick="moveToSignin()">Already have an account ? Sign in</button>
     </div>
 
-    <div class="sort-section">
-      <label for="sortSelect">Sort By:</label>
-      <select id="sortSelect" onchange="sortTasks()">
-        <option value="priority">Priority</option>
-        <option value="date">Date Added</option>
-      </select>
-    </div>
 
-    <ul id="taskList"></ul>
-  </div>
-
-  <script src="script.js"></script>
+     <script src="script.js"></script>
 </body>
 </html>
