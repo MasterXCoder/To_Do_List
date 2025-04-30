@@ -115,4 +115,58 @@
     background-color: #0056b3;
   }
   
+  #todos-list {
+    margin-top: 20px;
+  }
+  
+  .todo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    background-color: #ededed;
+    padding: 2px 5px 2px 0px;
+    border-radius: 4px;
+    width: 100%;
+  }
+  
+  .todo-item input[type="text"] {
+    padding: 8px;
+    width: 80%;
+    border: none;
+    border-radius: 4px;
+    background-color: #ededed;
+  }
+  
+  .todo-item input[type="text"]:focus {
+    outline: none;
+  }
+  
+  .todo-item input[type="checkbox"] {
+    cursor: pointer;
+    transform: scale(1.5); /* Adjust the scale factor as needed */
+    transform-origin: center; /* Keeps the checkbox centered */
+  }
+  
+  .todo-item button {
+    margin-left: 5px;
+  }
+  
+  .todo-item > button {
+    background-color: #ce770e;
+  }
+  
+  .todo-item > button:hover {
+    background-color: #ff8c00;
+  }
+  
+  .todo-item > button + button {
+    background-color: #dc3545;
+  }
+  
+  .todo-item > button + button:hover {
+    background-color: #fb041d;
+  }
+  
  
