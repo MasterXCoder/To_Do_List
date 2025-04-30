@@ -256,3 +256,18 @@ async function toggleTodoDone(id , done){
     }
 }
 
+function createDoneCheckbox(done , id , inputElement){
+    const doneCheckbox = document.createElement("input");
+    doneCheckbox.type = "checkbox";
+    doneCheckbox.checked = done;
+
+    inputElement.style.textDecoration = done ? "line-through" : "none";
+
+    doneCheckbox.onchange = function () {
+        // Toggle the To-Do status and update text decoration
+        toggleTodoDone(id, done); // Pass the current done state
+        inputElement.style.textDecoration = doneCheckbox.checked ? "line-through" : "none"; // Update text decoration based on checkbox state
+    };
+
+    return doneCheckbox;
+}
