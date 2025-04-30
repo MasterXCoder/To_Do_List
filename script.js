@@ -227,3 +227,13 @@ function createUpdateElement(inputElement , id){
     return updateBtn;
 }
 
+function createDeleteButton(id){
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+
+    deleteBtn.onclick = function(){
+        deleteTodo(id);
+    };
+    return deleteBtn;
+}
+
