@@ -176,3 +176,34 @@ async function toggleTodoDone(){
     }
 }
 
+function createTodoElement(todo){
+    const todoDiv =deocument.createElement("div");
+    todoDiv.className = "todo-item";
+
+    const inputElement = createInputElement(todo.title);
+    inputElement.readOnly = true //sets the todo as read only
+
+    //for more functionalities , created update , delete and done button
+    const updateBtn = createUpdateButton(inputElement , todo.id);
+    const deleteBtn = createDeleteButton(todo.id);
+    const doneCheckbox = createDoneCheckbox(todo.done , todo.id , inputElement);
+
+    //APPEND THESE BUTTONS IN THE DIV
+    todoDiv.appendChild(inputElement);
+    todoDiv.appendChild(doneCheckbox);
+    todoDiv.appendChild(updateBtn);
+    todoDiv.appendChild(deleteBtn);
+
+    return todoDiv;
+}
+
+function createInputElement(value){
+    const inputElement = document.createElement("input");
+
+    inputElement.type = "text";
+    inputElement.value = value;
+    inputElement.readOnly = true;
+
+    return inputElement;
+}
+
