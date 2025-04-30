@@ -46,4 +46,23 @@
     width: 100%;
   }
   
+  /* todos-container */
+  #todos-container {
+    background-color: #fff;
+    padding: 10px 20px 20px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 50%;
+    margin: 30px auto;
+  }
+  
+  #todos-container h1 {
+    display: inline-block;
+    font-size: 30px;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+  
   
