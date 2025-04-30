@@ -28,3 +28,45 @@ function showTodoApp(){
     getTodos();
 }
 
+async function signup(){
+    const username = document.getElementById("signup-username").value;
+    const password = document.getElementById("signup-password").value;
+
+    try{
+        const response = await axios.post("http://localhost:3000/signup" , {
+            username ,
+            password
+        })
+        alert(response.data.message);
+
+        if(response.data.message === "you are signedup successfully"){
+            moveToSignin();
+        }
+    }
+    catch(error){
+        console.error("Error while signup" , error);
+    }
+}
+
+async function signin(){
+    const username = document.getElementById("signin-username").value;
+    const password = document.getElementById("signin-password").value;
+
+    try {
+        const response = await axios.post("http://localhost:3000/signin" , {
+            username ,
+            password
+        });
+        //now take the token and set it in local storage
+        if(response.data.token){
+            localStorage.setItem("token" , response.data.token);
+            alert(response.data.message);
+            showTodoApp;
+        } else {
+            alert(response.data.message);
+        }
+    } catch(error){
+        console.error("error while siging in:" , error);
+    }
+}
+//logout remove token and move to sign in
