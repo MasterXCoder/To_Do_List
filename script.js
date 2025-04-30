@@ -17,3 +17,14 @@ function moveToSignin(){
     document.getElementById("todos-container").display.style = "none";
 }
 
+function showTodoApp(){
+    //show todos and hide signin and signup
+    
+    document.getElementById("todos-container").display.style = "block";
+
+    document.getElementById("signup-container").display.style = "none";
+    document.getElementById("signin-container").display.style = "none";
+
+    getTodos();
+}
+
