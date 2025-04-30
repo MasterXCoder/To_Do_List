@@ -145,3 +145,34 @@ async function updateTodo(id , newTitle){
     console.error("error while updating a todo item" , error);
 }
 }
+//deleting -- token deleting refreshing 
+async function deleteTodo(id){
+    const token = localStorage.getItem("token");
+
+    try{
+        await axios.delete(`http://localhost:3000/${id}` , {
+            headers : {
+                Authorization: token
+            }
+        });
+        getTodos;
+    } catch(error){
+        console.error("error while deleting a todo" , error)
+    }
+}
+
+async function toggleTodoDone(){
+    const token = localStorage.getItem("token");
+
+    try{
+        await axios.put(`http://localhost:3000/todos/${id}/done` , {
+            headers: {
+                Authorization: token
+            }
+        })
+        getTodos();
+    } catch(error){
+        console.error("error while marking it as done" , error)
+    }
+}
+
