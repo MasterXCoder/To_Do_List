@@ -237,3 +237,22 @@ function createDeleteButton(id){
     return deleteBtn;
 }
 
+async function toggleTodoDone(id , done){
+    const token = localStorage.getItem("token");
+
+    try {
+        await axios.put(
+           ` http://localhost:3000/todos/${id}/done` ,
+           { done: !done } ,
+           {
+            headers: {
+                Authorization : token 
+            },
+           }
+        )
+        getTodos();
+    } catch(error){
+        console.error("error while toggling todo : " , error)
+    }
+}
+
