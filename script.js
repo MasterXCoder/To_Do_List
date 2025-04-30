@@ -7,3 +7,13 @@ function moveToSignup(){
 
     document.getElementById("todos-container").style.display = "none"
 }
+
+function moveToSignin(){
+    //display the signin container and hide both signup and todos
+
+    document.getElementById("signin-container").display.style = "block";
+
+    document.getElementById("signup-container").display.style = "none";
+    document.getElementById("todos-container").display.style = "none";
+}
+
