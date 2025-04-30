@@ -26,4 +26,24 @@
     margin-bottom: 20px;
   }
   
+  #signup-container input, #signin-container input {
+    display: block;
+    margin-bottom: 8px;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+  }
+  
+  #signup-container input:focus, #signin-container input:focus {
+    border: none;
+    outline: 1px solid #007bff;
+  }
+  
+  #signup-container button, #signin-container button {
+    display: block;
+    margin-top: 15px;
+    width: 100%;
+  }
+  
   
