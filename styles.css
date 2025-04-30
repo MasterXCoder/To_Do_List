@@ -169,4 +169,14 @@
     background-color: #fb041d;
   }
   
- 
+  @media screen and (max-width: 1000px) {
+    #todos-container, #signup-container, #signin-container {
+      width: 75%;
+    }
+  }
+  
+  @media screen and (max-width: 700px) {
+    #todos-container, #signup-container, #signin-container {
+      width: 95%;
+    }
+  }
