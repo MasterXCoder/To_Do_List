@@ -124,33 +124,28 @@ app.post("/todos" , auth , (req , res) => {
     res.json({message : "todo created successfully" , todo : newTodo})
 })
 //updating a todo
-app.put("/todos/:id" , auth , (req , res) => {
-    const id = req.params.id;
-    const title = req.body.title;
-    const currentUser = req.username;
-    //finding todo
-    const todo = todos.find(todo => todo.id === parseInt(id) && todo.username === currentUser) //find todos by currentuser and todo id always 
 
-    if(!todo){
-        return res.json({
+//deleting a todo find and splice for updation
+app.delete("/todos/:id" , auth , (req , res) => {
+    const id = req.params.id;
+    const currentUser = req.username;
+    
+    const todo = todos.findIndex(todo => todos.id === parseInt(id) && todos.username === currentUser);
+
+    //new findIndex to find the index and then delete , can we also use normal without indexing ?
+    //for updation and deletion etc , findindex is beeter and for simple finding an element , find is better
+
+    if(todo.index === -1){
+        return res.json ({
             message: "todo not found"
         })
     }
-    if(!title){
-        return res.json({
-            message: "title is wrong or different"
-        })
-    }
-    //finally update the todo or title of the todo which is the todo
-    todo.title = title;
+    todo.splice(todoIndex , 1);
 
     res.json({
-        message: "todo has been updates successfully" ,
-        todo
+        message: "todo has been deleted successfully"
     })
-
 })
-
 
 //marking them as done
 //this will be a put req because it also updatin
