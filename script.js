@@ -207,3 +207,23 @@ function createInputElement(value){
     return inputElement;
 }
 
+function createUpdateElement(inputElement , id){
+    const updateBtn = document.createElement("button");
+    updateBtn.textContent = "Edit";
+
+    updateBtn.onclick = function(){
+        if(inputElement.readOnly){
+            inputElement.readOnly = false;
+            updateBtn.textContent = "Save";
+            inputElement.focus();
+            inputElement.style.outline = "1px solid #007BFF";
+        } else {
+            inputElement.readOnly = true;
+            updateBtn.textContent = "edit";
+            inputElement.style.outline = "none";
+            updateTodo(id , inputElement.value);
+        }
+    };
+    return updateBtn;
+}
+
