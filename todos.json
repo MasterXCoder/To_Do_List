@@ -10,5 +10,13 @@
   {
     "task": "hello",
     "done": false
+  },
+  {
+    "task": "do gym",
+    "done": true
+  },
+  {
+    "task": "homework",
+    "done": false
   }
 ]
