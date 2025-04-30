@@ -1,23 +1,9 @@
-// Modify the task creation to include due date
-function addTask() {
-  const input = document.getElementById('taskInput');
-  const priority = document.getElementById('prioritySelect').value;
-  const dueDate = document.getElementById('dueDate').value; // Add this input to HTML
-  const text = input.value.trim();
+function moveToSignup(){
+    //displaying the signup container
+    document.getElementById("signup-container").style.display = "block";
+    //hide the rest of the containers todo and signin
 
-  if (text === "") {
-    alert("Please enter a task!");
-    return;
-  }
+    document.getElementById("signin-container").style.display = "none";
 
-  tasks.push({ 
-    text, 
-    priority, 
-    completed: false, 
-    date: new Date(),
-    dueDate: dueDate 
-  });
-  saveTasks();
-  renderTasks();
-  input.value = "";
+    document.getElementById("todos-container").style.display = "none"
 }
