@@ -70,3 +70,34 @@ async function signin(){
     }
 }
 //logout remove token and move to sign in
+async function logout(){
+    localStorage.remove("token");
+
+    alert("logged out successfully");
+
+    moveToSignin();
+}
+
+async function getTodos(){
+    try {
+    const token = localStorage.getItem("token");
+
+    const response = await axios.get("http://localhost:3000/todos" ,{
+        headers: { Authorization:token }
+    })
+
+    const todosList = document.getElementById("todos-list");
+
+    todosList.innerHTML = "";
+
+    if(response.data.length){
+        response.data.forEach((todo) => {
+            const todoElement = createTodoElement(todo);
+            todosList.appendChild (todoElement);
+        });
+    }
+} catch (error){
+    console.error("error while getting todo list:" , error)
+}
+} 
+
