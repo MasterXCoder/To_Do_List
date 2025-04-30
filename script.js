@@ -101,3 +101,47 @@ async function getTodos(){
 }
 } 
 
+async function addTodo(){
+    const inputElement = document.getElementById("input"); //createinputelement se 
+    const title = inputElement.value;
+
+    if(title.trim() === ""){
+        alert("please add a todo to add one");
+        return;
+    }
+
+    const token = localStorage.getItem("token");
+    try{
+    await axios.post("http://localhost:3000/todos" ,
+        { title } , 
+
+        { Authorization : token });
+
+        inputElement.value = ""; //clear the field after adding a todo
+
+        //refresh the gettodo
+        getTodos;
+} 
+ catch(error){
+    console.error("error while loading the new added todos" , error); 
+}
+}
+
+async function updateTodo(id , newTitle){
+    //token put refresh 
+
+    const token = localStorage.getItem("token");
+
+    try{
+        await axios.put(`http://localhost:3000/todos/${id}` , {
+            title : newTitle
+        }  , 
+    { headers : {
+        Authorization : token
+    }});
+    getTodos();
+    }
+ catch(error){
+    console.error("error while updating a todo item" , error);
+}
+}
