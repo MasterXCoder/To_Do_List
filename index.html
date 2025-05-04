@@ -20,14 +20,16 @@
             </div>
         </div>
 
-    <div id = "signin-container" style="display: block">
-        <input type="text" id="signin-username" placeholder="username" required/>
-        <input type="password" id="signin-password" placeholder="password" required/>
-        <button onclick="signin()">Login</button>
+        <div id="signin-container" class="auth-container">
+            <h2>Sign In</h2>
+            <div class="form-group">
+                <input type="text" id="signin-username" placeholder="Username" required/>
+                <input type="password" id="signin-password" placeholder="Password" required/>
+                <button onclick="signin()" class="primary-btn">Login</button>
+                <p class="switch-text">Don't have an account? <a href="#" onclick="moveToSignup(); return false;">Sign Up</a></p>
+            </div>
+        </div>
 
-
-        <button onclick="moveToSignup">Dont have an account ? Sign up</button>
-    </div>
 
     <div id = "todos-container">
         <input type="text" id="input" placeholder="Add a new task" />
