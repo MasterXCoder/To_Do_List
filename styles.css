@@ -260,9 +260,24 @@
   color: #f44336;
 }
 
-  
-  @media screen and (max-width: 700px) {
-    #todos-container, #signup-container, #signin-container {
-      width: 95%;
-    }
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 15px;
   }
+  
+  .auth-container, #todos-container {
+    padding: 20px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+  
+  .logout-btn {
+    align-self: flex-end;
+  }
+}
