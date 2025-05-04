@@ -35,14 +35,12 @@
   animation: fadeIn 0.3s ease-in-out;
 }
 
-  #signup-container input, #signin-container input {
-    display: block;
-    margin-bottom: 8px;
-    padding: 6px 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-  }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
   
   #signup-container input:focus, #signin-container input:focus {
     border: none;
