@@ -1,25 +1,50 @@
-# To_Do_List
+# ✅ SmartTick - To-Do List Web App
 
-## Description
-This project focuses on creating a simple yet efficient To-Do List application.
+**SmartTick** is a full-stack to-do list application where users can stay productive by managing their tasks easily and securely. With user accounts, persistent data storage, and a clean interface supporting both light and dark modes, SmartTick is the smart way to track your tasks!
 
-## How to Add a Collaborator to Your Repository
+---
 
-Follow these steps to add a collaborator to your GitHub repository and start collaborating on your project:
-This project features a todo list website and CLI
-### Steps
+## 🌟 Features
 
-1. **Create the Repository**
-   - Visit the [GitHub website](https://github.com/) and create a repository for your project.
+- 🔐 User Registration and Login
+- ➕ Add new tasks
+- ✏️ Edit tasks
+- ✅ Mark tasks as completed
+- 🗑️ Delete tasks
+- 💡 Light and 🌙 Dark mode UI
+- 📦 Persistent backend storage for user data and task lists
 
-2. **Add Collaborators**
-   - Go to the **Settings** tab of your repository.
-   - Under the **Access** section, click on **Collaborators**.
-   - Click **Add people** and search for your collaborator's GitHub username or email address.
+---
 
-3. **Accept the Invitation**
-   - An invitation email will be sent to your collaborator.
-   - They need to accept the invitation to gain access to the repository.
+## 🧰 Tech Stack
 
-### Final Note
-Once the invitation is accepted, your collaborator will have access to the repository, and your companion can now access the repo and you both can work together.
+- **Frontend**: HTML, CSS, JavaScript
+- **Backend**: [Node.js]
+
+---
+
+## 🖼️ Screenshots
+
+### 🔐 Login Page
+![Login Page](./pic/login.png)
+
+### 🆕 Sign-Up Page
+![Sign-Up Page](./pic/signup.png)
+
+### 📋 Dashboard - Light Mode
+![Dashboard Light](./pic/dashboard-light.png)
+
+### 🌙 Dashboard - Dark Mode
+![Dashboard Dark](./pic/dashboard-dark.png)
+
+### 🧠 Backend Stored Data
+![Backend Data](./pic/backend.jgp)
+
+---
+
+## ⚙️ Getting Started
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/your-username/smarttick.git
+   cd smarttick
