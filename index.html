@@ -1,49 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo App</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartTick - Classic Task Manager</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
-</head>
-<body>
+  </head>
+
+  <body class="dark-mode">
+    <nav class="navbar">
+      <h1 class="navbar-title">SmartTick</h1>
+      <div class="theme-container">
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark/light mode">
+          <span class="moon">🌙</span>
+          <span class="sun">☀️</span>
+        </button>
+        <div class="user-logo" id="user-logo">👤</div>
+      </div>
+    </nav>
+
     <div class="container">
-        <div id="signup-container" class="auth-container">
-            <h2>Sign Up</h2>
-            <div class="form-group">
-                <input type="text" placeholder="Username (min 5 characters)" id="signup-username" required />
-                <input type="password" id="signup-password" placeholder="Password" required/>
-                <button onclick="signup()" class="primary-btn">Register</button>
-                <p class="switch-text">Already have an account? <a href="#" onclick="moveToSignin(); return false;">Sign In</a></p>
-            </div>
-        </div>
+      <div id="signup-container" class="section signup-container">
+          <h2>Sign Up</h2>
+          <input type="text" id="signup-username" placeholder="Username">
+          <input type="password" id="signup-password" placeholder="Password">
+          <button onclick="signup()">Sign Up</button>
+          <p>Already have an account? <a href="#" onclick="moveToSignin()">Sign In</a></p>
+      </div>
 
-        <div id="signin-container" class="auth-container">
-            <h2>Sign In</h2>
-            <div class="form-group">
-                <input type="text" id="signin-username" placeholder="Username" required/>
-                <input type="password" id="signin-password" placeholder="Password" required/>
-                <button onclick="signin()" class="primary-btn">Login</button>
-                <p class="switch-text">Don't have an account? <a href="#" onclick="moveToSignup(); return false;">Sign Up</a></p>
-            </div>
-        </div>
+      <div id="signin-container" class="section signin-container">
+          <h2>Sign In</h2>
+          <input type="text" id="signin-username" placeholder="Username">
+          <input type="password" id="signin-password" placeholder="Password">
+          <button onclick="signin()">Sign In</button>
+          <p>Don't have an account? <a href="#" onclick="moveToSignup()">Sign Up</a></p>
+      </div>
 
-        <div id="todos-container">
-            <div class="header">
-                <h1>Todo List</h1>
-                <button onclick="logout()" class="logout-btn">Logout</button>
-            </div>
-            
-            <div class="todos-input-container">
-                <input type="text" id="input" placeholder="Add a new task" />
-                <button onclick="addTodo()" class="add-btn">Add</button>
-            </div>
-
-            <div id="todos-list"></div>
-        </div>
+      <div id="todos-container" class="section todos-container">
+          <div class="todo-header">
+              <h2>My Tasks</h2>
+              <button onclick="logout()" class="logout-btn">Logout</button>
+          </div>
+          
+          <div class="add-todo-container">
+            <input type="text" id="input" placeholder="Add new task">
+            <button id="add-todo-btn" onclick="addTodo()">Add</button>
+          </div>
+          
+          <div class="todos-list-header">
+            <span>Active Tasks</span>
+            <span id="task-count">0</span>
+          </div>
+          
+          <div id="todos-list" class="todos-list"></div>
+      </div>
     </div>
-<!-- //to do list// -->
+
+    <footer class="footer">
+      <p>SmartTick &copy; 2025</p>
+    </footer>
+    
+    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
+    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
