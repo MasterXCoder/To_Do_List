@@ -29,36 +29,50 @@ function moveToSignup() {
 }
 
 
-function showTodoApp(){
-    //show todos and hide signin and signup
+
+function moveToSignin() {
+    document.getElementById("signin-container").style.display = "block";
+    document.getElementById("signup-container").style.display = "none";
+    document.getElementById("todos-container").style.display = "none";
     
-    document.getElementById("todos-container").display.style = "block";
+    // Clear input fields
+    document.getElementById("signin-username").value = "";
+    document.getElementById("signin-password").value = "";
+}
 
-    document.getElementById("signup-container").display.style = "none";
-    document.getElementById("signin-container").display.style = "none";
-
+function showTodoApp() {
+    document.getElementById("todos-container").style.display = "block";
+    document.getElementById("signup-container").style.display = "none";
+    document.getElementById("signin-container").style.display = "none";
     getTodos();
 }
 
-async function signup(){
-    const username = document.getElementById("signup-username").value;
+async function signup() {
+    const username = document.getElementById("signup-username").value.trim();
     const password = document.getElementById("signup-password").value;
 
-    try{
-        const response = await axios.post("http://localhost:3000/signup" , {
-            username ,
+    if (!username || !password) {
+        alert("Username and password cannot be empty!");
+        return;
+    }
+
+    try {
+        const response = await axios.post(${API_URL}/signup, {
+            username,
             password
-        })
+        });
+        
         alert(response.data.message);
 
-        if(response.data.message === "you are signedup successfully"){
+        if (response.data.message === "you are signedup successfully") {
             moveToSignin();
         }
-    }
-    catch(error){
-        console.error("Error while signup" , error);
+    } catch (error) {
+        console.error("Error while signup", error);
+        alert(error.response?.data?.message || "Error signing up");
     }
 }
+
 
 async function signin(){
     const username = document.getElementById("signin-username").value;
