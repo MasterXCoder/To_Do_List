@@ -1,29 +1,26 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f5f7fa;
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  
- 
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  .container {
-    width: 100%;
-    max-width: 600px;
-    padding: 20px;
-  }
-  
-  /* Auth Containers */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fa;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+}
+
+/* Auth Containers */
 .auth-container {
   background-color: #fff;
   padding: 30px;
@@ -35,10 +32,15 @@
   animation: fadeIn 0.3s ease-in-out;
 }
 
-
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+.auth-container h2 {
+  margin-bottom: 25px;
+  color: #333;
+  font-size: 24px;
 }
 
 .form-group {
@@ -46,7 +48,6 @@
   flex-direction: column;
   gap: 15px;
 }
-
 
 .auth-container input {
   padding: 12px 15px;
@@ -57,14 +58,12 @@
   transition: border-color 0.3s;
 }
 
-  
 .auth-container input:focus {
   border-color: #4285f4;
   outline: none;
   box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
 }
 
-  
 .primary-btn {
   background-color: #4285f4;
   color: white;
@@ -78,7 +77,6 @@
   width: 100%;
 }
 
-  
 .primary-btn:hover {
   background-color: #3367d6;
 }
@@ -98,7 +96,6 @@
   text-decoration: underline;
 }
 
-  
 /* Todos Container */
 #todos-container {
   background-color: #fff;
@@ -169,7 +166,6 @@
   transition: background-color 0.3s;
 }
 
-  
 .add-btn:hover {
   background-color: #3367d6;
 }
