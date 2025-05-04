@@ -199,30 +199,18 @@ app.delete("/todos/:id", auth, (req, res) => {
     })
 
 })
-//deleting a todo find and splice for updation
-app.delete("/todos/:id" , auth , (req , res) => {
-    const id = req.params.id;
+app.put("/todos/:id/done", auth, (req, res) => {
+    const id = parseInt(req.params.id);
     const currentUser = req.username;
-    
-    const todo = todos.findIndex(todo => todos.id === parseInt(id) && todos.username === currentUser);
 
-    //new findIndex to find the index and then delete , can we also use normal without indexing ?
-    //for updation and deletion etc , findindex is beeter and for simple finding an element , find is better
+    const todo = todos.find(todo => todo.id === id && todo.username === currentUser);
 
-    if(todo.index === -1){
-        return res.json ({
+    if (!todo) {
+        return res.status(404).json({
             message: "todo not found"
-        })
+        });
     }
-    todo.splice(todoIndex , 1);
 
-    res.json({
-        message: "todo has been deleted successfully"
-    })
-})
-
-//marking them as done
-//this will be a put req because it also updatin
 
 app.put("/todos/:id/done" , auth , (req , res) => {
     const id = req.params.id;
