@@ -1,21 +1,33 @@
-function moveToSignup(){
-    //displaying the signup container
+// Global variables
+const API_URL = "http://localhost:3000";
+let currentUser = null;
+
+// Check authentication status on page load
+document.addEventListener('DOMContentLoaded', () => {
+    checkAuthStatus();
+});
+
+// Authentication functions
+function checkAuthStatus() {
+    const token = localStorage.getItem("token");
+    
+    if (token) {
+        showTodoApp();
+    } else {
+        moveToSignin();
+    }
+}
+
+function moveToSignup() {
     document.getElementById("signup-container").style.display = "block";
-    //hide the rest of the containers todo and signin
-
     document.getElementById("signin-container").style.display = "none";
-
-    document.getElementById("todos-container").style.display = "none"
+    document.getElementById("todos-container").style.display = "none";
+    
+    // Clear input fields
+    document.getElementById("signup-username").value = "";
+    document.getElementById("signup-password").value = "";
 }
 
-function moveToSignin(){
-    //display the signin container and hide both signup and todos
-
-    document.getElementById("signin-container").display.style = "block";
-
-    document.getElementById("signup-container").display.style = "none";
-    document.getElementById("todos-container").display.style = "none";
-}
 
 function showTodoApp(){
     //show todos and hide signin and signup
