@@ -38,7 +38,7 @@
 ![Dashboard Dark](./pic/dashboard-dark.png)
 
 ### 🧠 Backend Stored Data
-![Backend Data](./pic/backend.jgp)
+![Backend Data](./pic/backend.png)
 
 ---
 
