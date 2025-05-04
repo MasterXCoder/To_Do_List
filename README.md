@@ -46,5 +46,5 @@
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/your-username/smarttick.git
-   cd smarttick
+   git clone https://github.com/MasterXCoder/To_Do_List.git
+   cd To_Do_List
