@@ -146,29 +146,52 @@ app.post("/todos" , auth , (req , res) => {
     };
 
     todos.push(newTodo);
+    res.json({ message: "todo created successfully", todo: newTodo });
+});
 
-    res.json({message : "todo created successfully" , todo : newTodo})
-})
-//updating a todo
-app.put("/todos/:id" , auth , (req , res) => {
-    const id = req.params.id;
+app.put("/todos/:id", auth, (req, res) => {
+    const id = parseInt(req.params.id);
     const title = req.body.title;
     const currentUser = req.username;
-    //finding todo
-    const todo = todos.find(todo => todo.id === parseInt(id) && todo.username === currentUser) //find todos by currentuser and todo id always 
+    
+    const todo = todos.find(todo => todo.id === id && todo.username === currentUser);
 
-    if(!todo){
-        return res.json({
+    if (!todo) {
+        return res.status(404).json({
             message: "todo not found"
-        })
+        });
     }
-    if(!title){
-        return res.json({
-            message: "title is wrong or different"
-        })
+
+    if (!title) {
+        return res.status(400).json({
+            message: "title is required"
+        });
     }
-    //finally update the todo or title of the todo which is the todo
+
     todo.title = title;
+    res.json({
+        message: "todo has been updated successfully",
+        todo
+    });
+});
+
+app.delete("/todos/:id", auth, (req, res) => {
+    const id = parseInt(req.params.id);
+    const currentUser = req.username;
+    
+    const todoIndex = todos.findIndex(todo => todo.id === id && todo.username === currentUser);
+
+    if (todoIndex === -1) {
+        return res.status(404).json({
+            message: "todo not found"
+        });
+    }
+
+    todos.splice(todoIndex, 1);
+    res.json({
+        message: "todo has been deleted successfully"
+    });
+});
 
     res.json({
         message: "todo has been updates successfully" ,
