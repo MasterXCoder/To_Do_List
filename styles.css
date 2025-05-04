@@ -123,16 +123,27 @@
   font-weight: 600;
 }
 
-  
-  .todos-input-container input[type="text"]:focus {
-    outline: none;
-    border-color: #007bff;
-  }
-  
-  .todos-input-container button {
-    padding: 0px 30px;
-    margin-left: 20px;
-  }
+.logout-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #d32f2f;
+}
+
+.todos-input-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
   
   button {
     padding: 6px 10px;
