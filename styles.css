@@ -88,12 +88,16 @@
   color: #666;
 }
 
-  .todos-input-container {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    width: 100%;
-  }
+.switch-text a {
+  color: #4285f4;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.switch-text a:hover {
+  text-decoration: underline;
+}
+
   
   .todos-input-container input[type="text"] {
     width: 100%;
