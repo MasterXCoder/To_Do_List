@@ -83,7 +83,6 @@ app.post("/signin", (req, res) => {
     });
 });
 
-
 function auth(req, res, next) {
     const token = req.headers.authorization;
 
@@ -124,25 +123,6 @@ app.post("/todos", auth, (req, res) => {
         username: currentUser,
         title,
         done: false
-    };
-
-
-app.post("/todos" , auth , (req , res) => {
-    const title = req.body.title;
-
-    const currentUser = req.username;
-
-    if(!title){
-        return res.json({
-            message : "Todo list cant be empty"
-        })
-    }
-
-    const newTodo = {
-        id : todos.length + 1 ,
-        username : currentUser ,
-        title ,
-        done : false, //every todo is stored with an id ,  so that we can update and do other things to this todo
     };
 
     todos.push(newTodo);
@@ -193,12 +173,6 @@ app.delete("/todos/:id", auth, (req, res) => {
     });
 });
 
-    res.json({
-        message: "todo has been updates successfully" ,
-        todo
-    })
-
-})
 app.put("/todos/:id/done", auth, (req, res) => {
     const id = parseInt(req.params.id);
     const currentUser = req.username;
@@ -210,8 +184,6 @@ app.put("/todos/:id/done", auth, (req, res) => {
             message: "todo not found"
         });
     }
-
-
 
     todo.done = !todo.done;
     res.json({
