@@ -1,273 +1,361 @@
-function moveToSignup(){
-    //displaying the signup container
-    document.getElementById("signup-container").style.display = "block";
-    //hide the rest of the containers todo and signin
+// Global variables
+const API_URL = "http://localhost:3000";
+let currentUser = null;
 
-    document.getElementById("signin-container").style.display = "none";
+// Check authentication status on page load
+document.addEventListener('DOMContentLoaded', () => {
+    checkAuthStatus();
+});
 
-    document.getElementById("todos-container").style.display = "none"
-}
-
-function moveToSignin(){
-    //display the signin container and hide both signup and todos
-
-    document.getElementById("signin-container").display.style = "block";
-
-    document.getElementById("signup-container").display.style = "none";
-    document.getElementById("todos-container").display.style = "none";
-}
-
-function showTodoApp(){
-    //show todos and hide signin and signup
+// Authentication functions
+function checkAuthStatus() {
+    const token = localStorage.getItem("token");
     
-    document.getElementById("todos-container").display.style = "block";
+    if (token) {
+        showTodoApp();
+    } else {
+        moveToSignin();
+    }
+}
 
-    document.getElementById("signup-container").display.style = "none";
-    document.getElementById("signin-container").display.style = "none";
+function moveToSignup() {
+    document.getElementById("signup-container").style.display = "block";
+    document.getElementById("signin-container").style.display = "none";
+    document.getElementById("todos-container").style.display = "none";
+    
+    // Clear input fields
+    document.getElementById("signup-username").value = "";
+    document.getElementById("signup-password").value = "";
+}
 
+function moveToSignin() {
+    document.getElementById("signin-container").style.display = "block";
+    document.getElementById("signup-container").style.display = "none";
+    document.getElementById("todos-container").style.display = "none";
+    
+    // Clear input fields
+    document.getElementById("signin-username").value = "";
+    document.getElementById("signin-password").value = "";
+}
+
+function showTodoApp() {
+    document.getElementById("todos-container").style.display = "block";
+    document.getElementById("signup-container").style.display = "none";
+    document.getElementById("signin-container").style.display = "none";
     getTodos();
 }
 
-async function signup(){
-    const username = document.getElementById("signup-username").value;
+async function signup() {
+    const username = document.getElementById("signup-username").value.trim();
     const password = document.getElementById("signup-password").value;
 
-    try{
-        const response = await axios.post("http://localhost:3000/signup" , {
-            username ,
+    if (!username || !password) {
+        alert("Username and password cannot be empty!");
+        return;
+    }
+
+    try {
+        const response = await axios.post(${API_URL}/signup, {
+            username,
             password
-        })
+        });
+        
         alert(response.data.message);
 
-        if(response.data.message === "you are signedup successfully"){
+        if (response.data.message === "you are signedup successfully") {
             moveToSignin();
         }
-    }
-    catch(error){
-        console.error("Error while signup" , error);
+    } catch (error) {
+        console.error("Error while signup", error);
+        alert(error.response?.data?.message || "Error signing up");
     }
 }
 
-async function signin(){
-    const username = document.getElementById("signin-username").value;
+async function signin() {
+    const username = document.getElementById("signin-username").value.trim();
     const password = document.getElementById("signin-password").value;
 
+    if (!username || !password) {
+        alert("Username and password cannot be empty!");
+        return;
+    }
+
     try {
-        const response = await axios.post("http://localhost:3000/signin" , {
-            username ,
+        const response = await axios.post(${API_URL}/signin, {
+            username,
             password
         });
-        //now take the token and set it in local storage
-        if(response.data.token){
-            localStorage.setItem("token" , response.data.token);
+        
+        if (response.data.token) {
+            localStorage.setItem("token", response.data.token);
+            currentUser = username;
             alert(response.data.message);
-            showTodoApp;
+            showTodoApp();
         } else {
             alert(response.data.message);
         }
-    } catch(error){
-        console.error("error while siging in:" , error);
+    } catch (error) {
+        console.error("Error while signing in:", error);
+        alert(error.response?.data?.message || "Error signing in");
     }
 }
-//logout remove token and move to sign in
-async function logout(){
-    localStorage.remove("token");
 
-    alert("logged out successfully");
-
+function logout() {
+    localStorage.removeItem("token");
+    currentUser = null;
+    alert("Logged out successfully");
     moveToSignin();
 }
 
-async function getTodos(){
+// Todo management functions
+async function getTodos() {
     try {
-    const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token");
+        if (!token) {
+            moveToSignin();
+            return;
+        }
 
-    const response = await axios.get("http://localhost:3000/todos" ,{
-        headers: { Authorization:token }
-    })
-
-    const todosList = document.getElementById("todos-list");
-
-    todosList.innerHTML = "";
-
-    if(response.data.length){
-        response.data.forEach((todo) => {
-            const todoElement = createTodoElement(todo);
-            todosList.appendChild (todoElement);
+        const response = await axios.get(${API_URL}/todos, {
+            headers: { Authorization: token }
         });
+
+        const todosList = document.getElementById("todos-list");
+        todosList.innerHTML = "";
+
+        if (response.data.length) {
+            response.data.forEach((todo) => {
+                const todoElement = createTodoElement(todo);
+                todosList.appendChild(todoElement);
+            });
+        } else {
+            todosList.innerHTML = '<p class="empty-message">No todos yet. Add one above!</p>';
+        }
+    } catch (error) {
+        console.error("Error while getting todo list:", error);
+        if (error.response?.status === 401) {
+            alert("Session expired. Please sign in again.");
+            logout();
+        }
     }
-} catch (error){
-    console.error("error while getting todo list:" , error)
 }
-} 
 
-async function addTodo(){
-    const inputElement = document.getElementById("input"); //createinputelement se 
-    const title = inputElement.value;
+async function addTodo() {
+    const inputElement = document.getElementById("input");
+    const title = inputElement.value.trim();
 
-    if(title.trim() === ""){
-        alert("please add a todo to add one");
+    if (title === "") {
+        alert("Please enter a task to add");
         return;
     }
 
     const token = localStorage.getItem("token");
-    try{
-    await axios.post("http://localhost:3000/todos" ,
-        { title } , 
-
-        { Authorization : token });
-
-        inputElement.value = ""; //clear the field after adding a todo
-
-        //refresh the gettodo
-        getTodos;
-} 
- catch(error){
-    console.error("error while loading the new added todos" , error); 
-}
-}
-
-async function updateTodo(id , newTitle){
-    //token put refresh 
-
-    const token = localStorage.getItem("token");
-
-    try{
-        await axios.put(`http://localhost:3000/todos/${id}` , {
-            title : newTitle
-        }  , 
-    { headers : {
-        Authorization : token
-    }});
-    getTodos();
+    if (!token) {
+        moveToSignin();
+        return;
     }
- catch(error){
-    console.error("error while updating a todo item" , error);
-}
-}
-//deleting -- token deleting refreshing 
-async function deleteTodo(id){
-    const token = localStorage.getItem("token");
 
-    try{
-        await axios.delete(`http://localhost:3000/${id}` , {
-            headers : {
-                Authorization: token
-            }
-        });
-        getTodos;
-    } catch(error){
-        console.error("error while deleting a todo" , error)
-    }
-}
-
-async function toggleTodoDone(){
-    const token = localStorage.getItem("token");
-
-    try{
-        await axios.put(`http://localhost:3000/todos/${id}/done` , {
-            headers: {
-                Authorization: token
-            }
-        })
+    try {
+        await axios.post(
+            ${API_URL}/todos,
+            { title },
+            { headers: { Authorization: token } }
+        );
+        
+        inputElement.value = "";
         getTodos();
-    } catch(error){
-        console.error("error while marking it as done" , error)
+    } catch (error) {
+        console.error("Error while adding new todo:", error);
+        if (error.response?.status === 401) {
+            alert("Session expired. Please sign in again.");
+            logout();
+        }
     }
 }
 
-function createTodoElement(todo){
-    const todoDiv =deocument.createElement("div");
+async function updateTodo(id, newTitle) {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        moveToSignin();
+        return;
+    }
+
+    try {
+        await axios.put(
+            ${API_URL}/todos/${id},
+            { title: newTitle },
+            { headers: { Authorization: token } }
+        );
+        
+        getTodos();
+    } catch (error) {
+        console.error("Error while updating todo:", error);
+        if (error.response?.status === 401) {
+            alert("Session expired. Please sign in again.");
+            logout();
+        }
+    }
+}
+
+async function deleteTodo(id) {
+    if (!confirm("Are you sure you want to delete this task?")) {
+        return;
+    }
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+        moveToSignin();
+        return;
+    }
+
+    try {
+        await axios.delete(
+            ${API_URL}/todos/${id},
+            { headers: { Authorization: token } }
+        );
+        
+        getTodos();
+    } catch (error) {
+        console.error("Error while deleting todo:", error);
+        if (error.response?.status === 401) {
+            alert("Session expired. Please sign in again.");
+            logout();
+        } else {
+            alert("Error deleting task. Please try again.");
+        }
+    }
+}
+
+async function toggleTodoDone(id, done) {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        moveToSignin();
+        return;
+    }
+
+    try {
+        await axios.put(
+            ${API_URL}/todos/${id}/done,
+            {},
+            { headers: { Authorization: token } }
+        );
+        
+        getTodos();
+    } catch (error) {
+        console.error("Error while toggling todo status:", error);
+        if (error.response?.status === 401) {
+            alert("Session expired. Please sign in again.");
+            logout();
+        }
+    }
+}
+
+// DOM element creation functions
+function createTodoElement(todo) {
+    const todoDiv = document.createElement("div");
     todoDiv.className = "todo-item";
+    if (todo.done) {
+        todoDiv.classList.add("done");
+    }
 
     const inputElement = createInputElement(todo.title);
-    inputElement.readOnly = true //sets the todo as read only
+    inputElement.readOnly = true;
+    if (todo.done) {
+        inputElement.style.textDecoration = "line-through";
+    }
 
-    //for more functionalities , created update , delete and done button
-    const updateBtn = createUpdateButton(inputElement , todo.id);
+    const doneCheckbox = createDoneCheckbox(todo.done, todo.id, inputElement);
+    const updateBtn = createUpdateButton(inputElement, todo.id);
     const deleteBtn = createDeleteButton(todo.id);
-    const doneCheckbox = createDoneCheckbox(todo.done , todo.id , inputElement);
 
-    //APPEND THESE BUTTONS IN THE DIV
-    todoDiv.appendChild(inputElement);
     todoDiv.appendChild(doneCheckbox);
+    todoDiv.appendChild(inputElement);
     todoDiv.appendChild(updateBtn);
     todoDiv.appendChild(deleteBtn);
 
     return todoDiv;
 }
 
-function createInputElement(value){
+function createInputElement(value) {
     const inputElement = document.createElement("input");
-
     inputElement.type = "text";
     inputElement.value = value;
     inputElement.readOnly = true;
-
     return inputElement;
 }
 
-function createUpdateElement(inputElement , id){
+function createUpdateButton(inputElement, id) {
     const updateBtn = document.createElement("button");
     updateBtn.textContent = "Edit";
+    updateBtn.className = "edit-btn";
 
-    updateBtn.onclick = function(){
-        if(inputElement.readOnly){
+    updateBtn.onclick = function() {
+        if (inputElement.readOnly) {
             inputElement.readOnly = false;
             updateBtn.textContent = "Save";
             inputElement.focus();
-            inputElement.style.outline = "1px solid #007BFF";
+            // Select all text in the input for easier editing
+            inputElement.setSelectionRange(0, inputElement.value.length);
         } else {
+            const newValue = inputElement.value.trim();
+            if (newValue === "") {
+                alert("Task cannot be empty");
+                return;
+            }
+            
             inputElement.readOnly = true;
-            updateBtn.textContent = "edit";
-            inputElement.style.outline = "none";
-            updateTodo(id , inputElement.value);
+            updateBtn.textContent = "Edit";
+            updateTodo(id, newValue);
         }
     };
+    
     return updateBtn;
 }
 
-function createDeleteButton(id){
+function createDeleteButton(id) {
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "Delete";
+    deleteBtn.className = "delete-btn";
 
-    deleteBtn.onclick = function(){
+    deleteBtn.onclick = function() {
         deleteTodo(id);
     };
+    
     return deleteBtn;
 }
 
-async function toggleTodoDone(id , done){
-    const token = localStorage.getItem("token");
-
-    try {
-        await axios.put(
-           ` http://localhost:3000/todos/${id}/done` ,
-           { done: !done } ,
-           {
-            headers: {
-                Authorization : token 
-            },
-           }
-        )
-        getTodos();
-    } catch(error){
-        console.error("error while toggling todo : " , error)
-    }
-}
-
-function createDoneCheckbox(done , id , inputElement){
+function createDoneCheckbox(done, id, inputElement) {
     const doneCheckbox = document.createElement("input");
     doneCheckbox.type = "checkbox";
     doneCheckbox.checked = done;
 
-    inputElement.style.textDecoration = done ? "line-through" : "none";
-
-    doneCheckbox.onchange = function () {
-        // Toggle the To-Do status and update text decoration
-        toggleTodoDone(id, done); // Pass the current done state
-        inputElement.style.textDecoration = doneCheckbox.checked ? "line-through" : "none"; // Update text decoration based on checkbox state
+    doneCheckbox.onchange = function() {
+        toggleTodoDone(id, done);
     };
-
+    
     return doneCheckbox;
 }
+
+// Add event listeners for Enter key
+document.addEventListener('DOMContentLoaded', () => {
+    // For signup form
+    document.getElementById("signup-password").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            signup();
+        }
+    });
+
+    // For signin form
+    document.getElementById("signin-password").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            signin();
+        }
+    });
+
+    // For todo input
+    document.getElementById("input").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            addTodo();
+        }
+    });
+});
