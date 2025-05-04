@@ -5,46 +5,40 @@ const path = require("path");
 const app = express();
 
 app.use(express.json());
+// Add CORS middleware
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    next();
+});
 
 const users = []
 const todos = []
 
 const JWT_SECRET = "madhavxoxo";
 
-app.use(express.static(path.join(__dirname , "todo-ass")));
+// Serve static files from current directory
+app.use(express.static(__dirname));
 
-app.post("/signup" , (req , res) => {
+app.post("/signup", (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    if (!username || !password){
-        return res.json({
+    if (!username || !password) {
+        return res.status(400).json({
             message: "username and passwords cant be empty!"
         });
     }
 
-    if(username.length < 5){
-        return res.json({
+    if (username.length < 5) {
+        return res.status(400).json({
             message: "username is too small"
         });
     }
 
-    const user = users.find(user => user.username === username && user.password === password)
+    const user = users.find(user => user.username === username);
 
-    if(user){
-        return res.json({
-            message : "you are already signed in"
-        })
-    }
-    users.push({
-        username,
-        password
-    })
-
-    res.json({
-        message : "you are signedup successfully"
-    })
-});
 
 app.post("/signin" , (req , res) => {
     const username = req.body.username;
