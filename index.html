@@ -9,19 +9,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
 </head>
 <body>
-    <div id = "signup-container" style="display: none">
-        <h2>Sign up</h2>
-        <input type="text" placeholder="username" id="signup-username" required />
-        <input type="password" id = "signup-password" placeholder="password" required/>
-        <button onclick="signup()">Register</button>
-
-        <button onclick="moveToSignin()">Already have an account ? Sign in</button>
-    </div>
+    <div class="container">
+        <div id="signup-container" class="auth-container">
+            <h2>Sign Up</h2>
+            <div class="form-group">
+                <input type="text" placeholder="Username (min 5 characters)" id="signup-username" required />
+                <input type="password" id="signup-password" placeholder="Password" required/>
+                <button onclick="signup()" class="primary-btn">Register</button>
+                <p class="switch-text">Already have an account? <a href="#" onclick="moveToSignin(); return false;">Sign In</a></p>
+            </div>
+        </div>
 
     <div id = "signin-container" style="display: block">
         <input type="text" id="signin-username" placeholder="username" required/>
         <input type="password" id="signin-password" placeholder="password" required/>
         <button onclick="signin()">Login</button>
+
 
         <button onclick="moveToSignup">Dont have an account ? Sign up</button>
     </div>
