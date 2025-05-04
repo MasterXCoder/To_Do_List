@@ -84,34 +84,48 @@ app.post("/signin", (req, res) => {
 });
 
 
-function auth(req , res , next){
+function auth(req, res, next) {
     const token = req.headers.authorization;
 
-    if(!token){
-        return res.json({
-            message : "Token missing! there's some issue."
-        })
+    if (!token) {
+        return res.status(401).json({
+            message: "Token missing! there's some issue."
+        });
     }
-    try{
-        const decoded = jwt.verify(token , JWT_SECRET);
-
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET);
         req.username = decoded.username;
-        req.password = decoded.password;
         next();
-    }  
-    catch(error){
-        res.json({
+    } catch (error) {
+        res.status(401).json({
             message: "invalid token!"
-        })
+        });
     }
 }
 
-app.get("/todos" , auth , (req , res) => {
+app.get("/todos", auth, (req, res) => {
     const currentUser = req.username;
-    const userTodos = todos.filter(todos => userTodos.username === currentUser);
-
+    const userTodos = todos.filter(todo => todo.username === currentUser);
     res.json(userTodos);
 });
+
+app.post("/todos", auth, (req, res) => {
+    const title = req.body.title;
+    const currentUser = req.username;
+
+    if (!title) {
+        return res.status(400).json({
+            message: "Todo list cant be empty"
+        });
+    }
+
+    const newTodo = {
+        id: todos.length + 1,
+        username: currentUser,
+        title,
+        done: false
+    };
+
 
 app.post("/todos" , auth , (req , res) => {
     const title = req.body.title;
