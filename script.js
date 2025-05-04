@@ -55,7 +55,7 @@ async function signup() {
     }
 
     try {
-        const response = await axios.post(${API_URL}/signup, {
+        const response = await axios.post(`${API_URL}/signup`, {
             username,
             password
         });
@@ -81,7 +81,7 @@ async function signin() {
     }
 
     try {
-        const response = await axios.post(${API_URL}/signin, {
+        const response = await axios.post(`${API_URL}/signin`, {
             username,
             password
         });
@@ -116,7 +116,7 @@ async function getTodos() {
             return;
         }
 
-        const response = await axios.get(${API_URL}/todos, {
+        const response = await axios.get(`${API_URL}/todos`, {
             headers: { Authorization: token }
         });
 
@@ -157,7 +157,7 @@ async function addTodo() {
 
     try {
         await axios.post(
-            ${API_URL}/todos,
+            `${API_URL}/todos`,
             { title },
             { headers: { Authorization: token } }
         );
@@ -182,7 +182,7 @@ async function updateTodo(id, newTitle) {
 
     try {
         await axios.put(
-            ${API_URL}/todos/${id},
+            `${API_URL}/todos/${id}`,
             { title: newTitle },
             { headers: { Authorization: token } }
         );
@@ -210,7 +210,7 @@ async function deleteTodo(id) {
 
     try {
         await axios.delete(
-            ${API_URL}/todos/${id},
+            `${API_URL}/todos/${id}`,
             { headers: { Authorization: token } }
         );
         
@@ -235,7 +235,7 @@ async function toggleTodoDone(id, done) {
 
     try {
         await axios.put(
-            ${API_URL}/todos/${id}/done,
+            `${API_URL}/todos/${id}/done`,
             {},
             { headers: { Authorization: token } }
         );
@@ -356,6 +356,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("input").addEventListener("keypress", function(event) {
         if (event.key === "Enter") {
             addTodo();
-        }
-    });
+    }
+    });
 });
