@@ -119,54 +119,39 @@ async function logout(){
     moveToSignin();
 }
 
-async function getTodos(){
+// Todo management functions
+async function getTodos() {
     try {
-    const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token");
+        if (!token) {
+            moveToSignin();
+            return;
+        }
 
-    const response = await axios.get("http://localhost:3000/todos" ,{
-        headers: { Authorization:token }
-    })
-
-    const todosList = document.getElementById("todos-list");
-
-    todosList.innerHTML = "";
-
-    if(response.data.length){
-        response.data.forEach((todo) => {
-            const todoElement = createTodoElement(todo);
-            todosList.appendChild (todoElement);
+        const response = await axios.get(${API_URL}/todos, {
+            headers: { Authorization: token }
         });
+
+        const todosList = document.getElementById("todos-list");
+        todosList.innerHTML = "";
+
+        if (response.data.length) {
+            response.data.forEach((todo) => {
+                const todoElement = createTodoElement(todo);
+                todosList.appendChild(todoElement);
+            });
+        } else {
+            todosList.innerHTML = '<p class="empty-message">No todos yet. Add one above!</p>';
+        }
+    } catch (error) {
+        console.error("Error while getting todo list:", error);
+        if (error.response?.status === 401) {
+            alert("Session expired. Please sign in again.");
+            logout();
+        }
     }
-} catch (error){
-    console.error("error while getting todo list:" , error)
 }
-} 
 
-async function addTodo(){
-    const inputElement = document.getElementById("input"); //createinputelement se 
-    const title = inputElement.value;
-
-    if(title.trim() === ""){
-        alert("please add a todo to add one");
-        return;
-    }
-
-    const token = localStorage.getItem("token");
-    try{
-    await axios.post("http://localhost:3000/todos" ,
-        { title } , 
-
-        { Authorization : token });
-
-        inputElement.value = ""; //clear the field after adding a todo
-
-        //refresh the gettodo
-        getTodos;
-} 
- catch(error){
-    console.error("error while loading the new added todos" , error); 
-}
-}
 
 async function updateTodo(id , newTitle){
     //token put refresh 
