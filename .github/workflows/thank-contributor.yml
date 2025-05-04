@@ -1,0 +1,23 @@
+name: Thank Contributor on Push
+
+on:
+  push:
+    branches-ignore:
+      - main  # Only respond to feature branches, not main
+
+jobs:
+  thank-contributor:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Get Collaborator Name
+      id: get_user
+      run: echo "actor=${{ github.actor }}" >> $GITHUB_OUTPUT
+
+    - name: Thank Contributor
+      uses: peter-evans/create-or-update-comment@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        issue-number: 1  # You can set this to a real issue or PR number
+        body: |
+          Thanks for your contribution, @${{ steps.get_user.outputs.actor }}!
