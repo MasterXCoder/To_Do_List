@@ -74,27 +74,42 @@ async function signup() {
 }
 
 
-async function signin(){
-    const username = document.getElementById("signin-username").value;
+async function signin() {
+    const username = document.getElementById("signin-username").value.trim();
     const password = document.getElementById("signin-password").value;
 
+    if (!username || !password) {
+        alert("Username and password cannot be empty!");
+        return;
+    }
+
     try {
-        const response = await axios.post("http://localhost:3000/signin" , {
-            username ,
+        const response = await axios.post(${API_URL}/signin, {
+            username,
             password
         });
-        //now take the token and set it in local storage
-        if(response.data.token){
-            localStorage.setItem("token" , response.data.token);
+        
+        if (response.data.token) {
+            localStorage.setItem("token", response.data.token);
+            currentUser = username;
             alert(response.data.message);
-            showTodoApp;
+            showTodoApp();
         } else {
             alert(response.data.message);
         }
-    } catch(error){
-        console.error("error while siging in:" , error);
+    } catch (error) {
+        console.error("Error while signing in:", error);
+        alert(error.response?.data?.message || "Error signing in");
     }
 }
+
+function logout() {
+    localStorage.removeItem("token");
+    currentUser = null;
+    alert("Logged out successfully");
+    moveToSignin();
+}
+
 //logout remove token and move to sign in
 async function logout(){
     localStorage.remove("token");
