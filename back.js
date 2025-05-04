@@ -39,32 +39,50 @@ app.post("/signup", (req, res) => {
 
     const user = users.find(user => user.username === username);
 
+    if (user) {
+        return res.status(400).json({
+            message: "you are already signed up"
+        });
+    }
 
-app.post("/signin" , (req , res) => {
+    users.push({
+        username,
+        password
+    });
+
+    res.json({
+        message: "you are signedup successfully"
+    });
+});
+
+app.post("/signin", (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    if (!username || !password){
-        return res.json({
+    if (!username || !password) {
+        return res.status(400).json({
             message: "username and passwords cant be empty!"
         });
     }
 
-    const user = users.find(user => user.username === username && user.password === password)
+    const user = users.find(user => user.username === username && user.password === password);
 
-    if(user){
+    if (user) {
         const token = jwt.sign({
-            username ,
-            password 
-        } , JWT_SECRET)
+            username
+        }, JWT_SECRET);
+        
+        return res.json({
+            token,
+            message: "Signed in successfully"
+        });
     }
 
-    else{
-        res.json({
-            message:"Enter valid username or password"
-        })
-    }
+    res.status(401).json({
+        message: "Enter valid username or password"
+    });
 });
+
 
 function auth(req , res , next){
     const token = req.headers.authorization;
