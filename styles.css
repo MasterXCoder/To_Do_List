@@ -15,7 +15,7 @@
   }
   
   
-  /* todos-container */
+ 
 
   .container {
     width: 100%;
@@ -23,11 +23,18 @@
     padding: 20px;
   }
   
-  
-  #signup-container h2, #signin-container h2 {
-    margin-bottom: 20px;
-  }
-  
+  /* Auth Containers */
+.auth-container {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%;
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
   #signup-container input, #signin-container input {
     display: block;
     margin-bottom: 8px;
