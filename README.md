@@ -6,7 +6,7 @@ This project focuses on creating a simple yet efficient To-Do List application.
 ## How to Add a Collaborator to Your Repository
 
 Follow these steps to add a collaborator to your GitHub repository and start collaborating on your project:
-
+This project features a todo list website and CLI
 ### Steps
 
 1. **Create the Repository**
