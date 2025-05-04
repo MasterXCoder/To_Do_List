@@ -229,12 +229,37 @@
   accent-color: #34a853;
 }
 
-  
-  @media screen and (max-width: 1000px) {
-    #todos-container, #signup-container, #signin-container {
-      width: 75%;
-    }
-  }
+.todo-item button {
+  background-color: transparent;
+  color: #666;
+  border: 1px solid #ddd;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.edit-btn {
+  color: #4285f4;
+}
+
+.edit-btn:hover {
+  background-color: rgba(66, 133, 244, 0.1);
+  border-color: #4285f4;
+  color: #4285f4;
+}
+
+.delete-btn {
+  color: #f44336;
+}
+
+.delete-btn:hover {
+  background-color: rgba(244, 67, 54, 0.1);
+  border-color: #f44336;
+  color: #f44336;
+}
+
   
   @media screen and (max-width: 700px) {
     #todos-container, #signup-container, #signin-container {
