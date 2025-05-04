@@ -212,27 +212,15 @@ app.put("/todos/:id/done", auth, (req, res) => {
     }
 
 
-app.put("/todos/:id/done" , auth , (req , res) => {
-    const id = req.params.id;
-    const currentUser = req.username;
-
-    const todo = todos.find(todo => todo.id === parseInt(id) && todo.username === currentUser);
-
-    if(!todo){
-        return res.json({
-            message: "todo not found"
-        })
-    }
-    //toggle button to toggle done and not done
-    //better approach will be separating and displaying that
 
     todo.done = !todo.done;
-
     res.json({
-        message : 'Todo marked as {todo.done ? "done" : "undone"}' ,
+        message: Todo marked as ${todo.done ? "done" : "undone"},
         todo
-    })
-})
+    });
+});
 
-//backend routes are done here 
-app.listen(3000)
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(Server running on port ${PORT});
+});
