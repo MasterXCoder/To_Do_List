@@ -1,31 +1,9 @@
-app.put("/todos/:id/done", auth, (req, res) => {
-  const id = parseInt(req.params.id);
-  const currentUser = req.username;
+const express = require("express");
+const jwt = require("jsonwebtoken");
+const path = require("path");
 
-  const todo = todos.find(
-    (todo) => todo.id === id && todo.username === currentUser
-  );
+const app = express();
 
-<<<<<<< HEAD
-  if (!todo) {
-    return res.status(404).json({
-      message: "todo not found",
-    });
-  }
-
-  todo.done = !todo.done;
-  res.json({
-    message: `Todo marked as ${todo.done ? "done" : "undone"}`,
-    todo,
-  });
-});
-
-// Move the app.listen call here
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-=======
 app.use(express.json());
 // Add CORS middleware
 app.use((req, res, next) => {
@@ -209,17 +187,12 @@ app.put("/todos/:id/done", auth, (req, res) => {
 
     todo.done = !todo.done;
     res.json({
-        message: Todo marked as ${todo.done ? "done" : "undone"},
+        message: `Todo marked as ${todo.done ? "done" : "undone"}`,
         todo
     });
 });
 
 const PORT = 3000;
 app.listen(PORT, () => {
-    console.log(Server running on port ${PORT});
+    console.log(`Server running on port ${PORT}`);
 });
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(Server running on port ${PORT});
-});
->>>>>>> d2bcbe9da7f57aed8979848444d8f64f5742fc05
