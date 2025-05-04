@@ -153,115 +153,47 @@ async function getTodos() {
 }
 
 
-async function updateTodo(id , newTitle){
-    //token put refresh 
+async function addTodo() {
+    const inputElement = document.getElementById("input");
+    const title = inputElement.value.trim();
 
-    const token = localStorage.getItem("token");
-
-    try{
-        await axios.put(`http://localhost:3000/todos/${id}` , {
-            title : newTitle
-        }  , 
-    { headers : {
-        Authorization : token
-    }});
-    getTodos();
+    if (title === "") {
+        alert("Please enter a task to add");
+        return;
     }
- catch(error){
-    console.error("error while updating a todo item" , error);
-}
-}
-//deleting -- token deleting refreshing 
-async function deleteTodo(id){
-    const token = localStorage.getItem("token");
 
-    try{
-        await axios.delete(`http://localhost:3000/${id}` , {
-            headers : {
-                Authorization: token
-            }
-        });
-        getTodos;
-    } catch(error){
-        console.error("error while deleting a todo" , error)
+    const token = localStorage.getItem("token");
+    if (!token) {
+        moveToSignin();
+        return;
     }
-}
 
-async function toggleTodoDone(){
-    const token = localStorage.getItem("token");
-
-    try{
-        await axios.put(`http://localhost:3000/todos/${id}/done` , {
-            headers: {
-                Authorization: token
-            }
-        })
+    try {
+        await axios.post(
+            ${API_URL}/todos,
+            { title },
+            { headers: { Authorization: token } }
+        );
+        
+        inputElement.value = "";
         getTodos();
-    } catch(error){
-        console.error("error while marking it as done" , error)
+    } catch (error) {
+        console.error("Error while adding new todo:", error);
+        if (error.response?.status === 401) {
+            alert("Session expired. Please sign in again.");
+            logout();
+        }
     }
 }
 
-function createTodoElement(todo){
-    const todoDiv =deocument.createElement("div");
-    todoDiv.className = "todo-item";
+async function updateTodo(id, newTitle) {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        moveToSignin();
+        return;
+    }
 
-    const inputElement = createInputElement(todo.title);
-    inputElement.readOnly = true //sets the todo as read only
 
-    //for more functionalities , created update , delete and done button
-    const updateBtn = createUpdateButton(inputElement , todo.id);
-    const deleteBtn = createDeleteButton(todo.id);
-    const doneCheckbox = createDoneCheckbox(todo.done , todo.id , inputElement);
-
-    //APPEND THESE BUTTONS IN THE DIV
-    todoDiv.appendChild(inputElement);
-    todoDiv.appendChild(doneCheckbox);
-    todoDiv.appendChild(updateBtn);
-    todoDiv.appendChild(deleteBtn);
-
-    return todoDiv;
-}
-
-function createInputElement(value){
-    const inputElement = document.createElement("input");
-
-    inputElement.type = "text";
-    inputElement.value = value;
-    inputElement.readOnly = true;
-
-    return inputElement;
-}
-
-function createUpdateElement(inputElement , id){
-    const updateBtn = document.createElement("button");
-    updateBtn.textContent = "Edit";
-
-    updateBtn.onclick = function(){
-        if(inputElement.readOnly){
-            inputElement.readOnly = false;
-            updateBtn.textContent = "Save";
-            inputElement.focus();
-            inputElement.style.outline = "1px solid #007BFF";
-        } else {
-            inputElement.readOnly = true;
-            updateBtn.textContent = "edit";
-            inputElement.style.outline = "none";
-            updateTodo(id , inputElement.value);
-        }
-    };
-    return updateBtn;
-}
-
-function createDeleteButton(id){
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Delete";
-
-    deleteBtn.onclick = function(){
-        deleteTodo(id);
-    };
-    return deleteBtn;
-}
 
 async function toggleTodoDone(id , done){
     const token = localStorage.getItem("token");
