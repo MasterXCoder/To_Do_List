@@ -99,13 +99,30 @@
 }
 
   
-  .todos-input-container input[type="text"] {
-    width: 100%;
-    padding: 6px 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-  }
+/* Todos Container */
+#todos-container {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.header h1 {
+  font-size: 24px;
+  color: #333;
+  font-weight: 600;
+}
+
   
   .todos-input-container input[type="text"]:focus {
     outline: none;
