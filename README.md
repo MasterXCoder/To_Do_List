@@ -1,50 +1,34 @@
-# ✅ SmartTick - To-Do List Web App
+# 🧠 To_Do_List Manager — SmartTick
 
-**SmartTick** is a full-stack to-do list application where users can stay productive by managing their tasks easily and securely. With user accounts, persistent data storage, and a clean interface supporting both light and dark modes, SmartTick is the smart way to track your tasks!
-
----
-
-## 🌟 Features
-
-- 🔐 User Registration and Login
-- ➕ Add new tasks
-- ✏️ Edit tasks
-- ✅ Mark tasks as completed
-- 🗑️ Delete tasks
-- 💡 Light and 🌙 Dark mode UI
-- 📦 Persistent backend storage for user data and task lists
+SmartTick is a cross-platform productivity tool designed to help users efficiently manage their daily tasks using both a responsive web interface and an integrated Command-Line Interface (CLI) within VS Code. It’s built for users who prefer either graphical interaction or terminal-based control, offering versatility and usability in one powerful tool.
 
 ---
 
-## 🧰 Tech Stack
+## 🚀 Key Features
 
-- **Frontend**: HTML, CSS, JavaScript
-- **Backend**: [Node.js]
+### 🌐 Web Interface
+- Clean and responsive task management dashboard
+- Sign-Up and Sign-In functionality for secure access
+- Add, delete, edit, and mark tasks as done
+- Light and Dark mode toggle
+- Animations and hover effects for improved UX
 
----
 
-## 🖼️ Screenshots
+## 📸 Screenshots
 
-### 🔐 Login Page
-![Login Page](./pic/login.png)
+### ✅ SmartTick Main Interface
+![SmartTick Interface](screenshots/main_interface.png)
 
-### 🆕 Sign-Up Page
-![Sign-Up Page](./pic/signup.png)
-
-### 📋 Dashboard - Light Mode
-![Dashboard Light](./pic/dashboard-light.png)
-
-### 🌙 Dashboard - Dark Mode
-![Dashboard Dark](./pic/dashboard-dark.png)
-
-### 🧠 Backend Stored Data
-![Backend Data](./pic/backend.png)
+#### Features Highlighted:
+- Add New Task
+- Edit or Delete Tasks
+- Task Completed Checkbox
+- Dark/Light Mode Switch
+- Responsive Grid Layout
 
 ---
 
-## ⚙️ Getting Started
+### 🗄️ Backend Stored Data View (Sample)
+![Backend Data](screenshots/backend.png)
 
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/MasterXCoder/To_Do_List.git
-   cd To_Do_List
+Data is stored and retrieved using structured JSON objects via Node.js, ensuring consistent access from both the web and CLI.
