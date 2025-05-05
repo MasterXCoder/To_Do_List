@@ -110,6 +110,7 @@ app.get("/todos", auth, (req, res) => {
 
 app.post("/todos", auth, (req, res) => {
     const title = req.body.title;
+    const priority = req.body.priority || "medium";
     const currentUser = req.username;
 
     if (!title) {
@@ -122,55 +123,12 @@ app.post("/todos", auth, (req, res) => {
         id: todos.length + 1,
         username: currentUser,
         title,
+        priority,
         done: false
     };
 
     todos.push(newTodo);
     res.json({ message: "todo created successfully", todo: newTodo });
-});
-
-app.put("/todos/:id", auth, (req, res) => {
-    const id = parseInt(req.params.id);
-    const title = req.body.title;
-    const currentUser = req.username;
-    
-    const todo = todos.find(todo => todo.id === id && todo.username === currentUser);
-
-    if (!todo) {
-        return res.status(404).json({
-            message: "todo not found"
-        });
-    }
-
-    if (!title) {
-        return res.status(400).json({
-            message: "title is required"
-        });
-    }
-
-    todo.title = title;
-    res.json({
-        message: "todo has been updated successfully",
-        todo
-    });
-});
-
-app.delete("/todos/:id", auth, (req, res) => {
-    const id = parseInt(req.params.id);
-    const currentUser = req.username;
-    
-    const todoIndex = todos.findIndex(todo => todo.id === id && todo.username === currentUser);
-
-    if (todoIndex === -1) {
-        return res.status(404).json({
-            message: "todo not found"
-        });
-    }
-
-    todos.splice(todoIndex, 1);
-    res.json({
-        message: "todo has been deleted successfully"
-    });
 });
 
 app.put("/todos/:id/done", auth, (req, res) => {
@@ -189,6 +147,27 @@ app.put("/todos/:id/done", auth, (req, res) => {
     res.json({
         message: `Todo marked as ${todo.done ? "done" : "undone"}`,
         todo
+    });
+});
+
+app.delete("/todos/all", auth, (req, res) => {
+    const currentUser = req.username;
+    
+    const initialLength = todos.length;
+    const newTodos = todos.filter(todo => todo.username !== currentUser);
+    const deletedCount = initialLength - newTodos.length;
+    
+    if (deletedCount === 0) {
+        return res.status(404).json({
+            message: "No todos found to delete"
+        });
+    }
+    
+    todos.length = 0;
+    todos.push(...newTodos);
+    
+    res.json({
+        message: `${deletedCount} todos have been deleted successfully`
     });
 });
 

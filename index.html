@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SmartTick - Classic Task Manager</title>
+    <title>TaskMaster - Stay organized</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,9 +11,14 @@
     <link rel="stylesheet" href="styles.css">
   </head>
 
-  <body class="dark-mode">
+  <body class="light-mode">
     <nav class="navbar">
-      <h1 class="navbar-title">SmartTick</h1>
+      <div class="navbar-branding">
+        <div class="logo-container">
+          <div class="check-icon">✓</div>
+        </div>
+        <h1 class="navbar-title">TaskMaster</h1>
+      </div>
       <div class="theme-container">
         <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark/light mode">
           <span class="moon">🌙</span>
@@ -22,6 +27,25 @@
         <div class="user-logo" id="user-logo">👤</div>
       </div>
     </nav>
+
+    <div class="app-tagline">
+      <p>Stay organized and boost your productivity</p>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-icon">📋</span>
+        <span id="total-count">0</span> tasks
+      </div>
+      <div class="stat-item">
+        <span class="stat-icon">✓</span>
+        <span id="completed-count">0</span> completed
+      </div>
+      <div class="stat-item">
+        <span class="stat-icon">⏳</span>
+        <span id="pending-count">0</span> pending
+      </div>
+    </div>
 
     <div class="container">
       <div id="signup-container" class="section signup-container">
@@ -41,28 +65,55 @@
       </div>
 
       <div id="todos-container" class="section todos-container">
-          <div class="todo-header">
-              <h2>My Tasks</h2>
-              <button onclick="logout()" class="logout-btn">Logout</button>
-          </div>
-          
           <div class="add-todo-container">
-            <input type="text" id="input" placeholder="Add new task">
-            <button id="add-todo-btn" onclick="addTodo()">Add</button>
+            <input type="text" id="input" placeholder="Add a new task...">
+            <div class="task-actions">
+              <div class="priority-dropdown">
+                <button id="priority-btn">Priority <span class="dropdown-arrow">▼</span></button>
+                <div id="priority-menu" class="priority-menu">
+                  <div class="priority-option" data-priority="high">High Priority</div>
+                  <div class="priority-option" data-priority="medium">Medium Priority</div>
+                  <div class="priority-option" data-priority="low">Low Priority</div>
+                </div>
+              </div>
+              <button id="add-todo-btn" onclick="addTodo()">Add Task</button>
+            </div>
           </div>
           
-          <div class="todos-list-header">
-            <span>Active Tasks</span>
-            <span id="task-count">0</span>
+          <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">All</button>
+            <button class="filter-tab" data-filter="pending">Pending</button>
+            <button class="filter-tab" data-filter="completed">Completed</button>
+            <button class="filter-tab" data-filter="high">High Priority</button>
+            <button class="filter-tab" data-filter="medium">Medium Priority</button>
+            <button class="filter-tab" data-filter="low">Low Priority</button>
           </div>
           
-          <div id="todos-list" class="todos-list"></div>
+          <div id="todos-list" class="todos-list">
+            <!-- Tasks will be added here dynamically -->
+            <div class="empty-state">
+              <div class="empty-icon">📋</div>
+              <p>No tasks found</p>
+            </div>
+          </div>
+          
+          <div class="todos-footer">
+            <p>Your tasks are saved locally and will not be lost when you close this page.</p>
+            <button id="clear-all-btn" class="clear-all-btn">Clear All Tasks</button>
+          </div>
       </div>
     </div>
 
-    <footer class="footer">
-      <p>SmartTick &copy; 2025</p>
-    </footer>
+    <div class="user-menu" id="user-menu">
+      <div class="user-info">
+        <div class="user-avatar">👤</div>
+        <div class="user-details">
+          <p id="user-name">User</p>
+        </div>
+      </div>
+      <div class="menu-separator"></div>
+      <div class="menu-item" onclick="logout()">Logout</div>
+    </div>
     
     <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>

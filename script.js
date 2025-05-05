@@ -1,6 +1,8 @@
 const API_URL = "http://localhost:3000";
 let currentUser = null;
 let darkMode = true; // Start with dark mode by default
+let currentFilter = "all";
+let selectedPriority = "medium"; // Default priority
 
 document.addEventListener("DOMContentLoaded", () => {
   // Initialize theme based on local storage or default
@@ -8,6 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (savedTheme === "light") {
     darkMode = false;
     document.body.classList.remove("dark-mode");
+  } else {
+    document.body.classList.add("dark-mode");
   }
 
   // Set up theme toggle
@@ -15,7 +19,74 @@ document.addEventListener("DOMContentLoaded", () => {
     .getElementById("theme-toggle")
     .addEventListener("click", toggleTheme);
 
-  // Set up event listeners
+  // Set up user logo click for menu
+  document
+    .getElementById("user-logo")
+    .addEventListener("click", toggleUserMenu);
+
+  // Close user menu when clicking elsewhere
+  document.addEventListener("click", (e) => {
+    const userMenu = document.getElementById("user-menu");
+    const userLogo = document.getElementById("user-logo");
+    if (
+      userMenu.style.display === "block" &&
+      e.target !== userLogo &&
+      !userMenu.contains(e.target)
+    ) {
+      userMenu.style.display = "none";
+    }
+  });
+
+  // Set up priority dropdown
+  document
+    .getElementById("priority-btn")
+    .addEventListener("click", togglePriorityMenu);
+
+  // Close priority menu when clicking elsewhere
+  document.addEventListener("click", (e) => {
+    const priorityMenu = document.getElementById("priority-menu");
+    const priorityBtn = document.getElementById("priority-btn");
+    if (
+      priorityMenu.style.display === "block" &&
+      e.target !== priorityBtn &&
+      !priorityBtn.contains(e.target) &&
+      !priorityMenu.contains(e.target)
+    ) {
+      priorityMenu.style.display = "none";
+    }
+  });
+
+  // Set up priority options
+  document.querySelectorAll(".priority-option").forEach((option) => {
+    option.addEventListener("click", () => {
+      selectedPriority = option.getAttribute("data-priority");
+      document.getElementById(
+        "priority-btn"
+      ).innerHTML = `${capitalizeFirstLetter(
+        selectedPriority
+      )} Priority <span class="dropdown-arrow">▼</span>`;
+      togglePriorityMenu();
+    });
+  });
+
+  // Set up filter tabs
+  document.querySelectorAll(".filter-tab").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      document
+        .querySelectorAll(".filter-tab")
+        .forEach((t) => t.classList.remove("active"));
+      tab.classList.add("active");
+      currentFilter = tab.getAttribute("data-filter");
+      filterTodos();
+    });
+  });
+
+  // Set up clear all button
+  document
+    .getElementById("clear-all-btn")
+    .addEventListener("click", clearAllTasks);
+
+  // Set up event listeners for auth
   document
     .getElementById("signup-password")
     .addEventListener("keypress", (e) => {
@@ -47,9 +118,28 @@ function toggleTheme() {
   }
 }
 
+function toggleUserMenu() {
+  const userMenu = document.getElementById("user-menu");
+  userMenu.style.display =
+    userMenu.style.display === "block" ? "none" : "block";
+}
+
+function togglePriorityMenu() {
+  const priorityMenu = document.getElementById("priority-menu");
+  priorityMenu.style.display =
+    priorityMenu.style.display === "block" ? "none" : "block";
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 function checkAuthStatus() {
   const token = localStorage.getItem("token");
-  if (token) {
+  const username = localStorage.getItem("username");
+  if (token && username) {
+    currentUser = username;
+    document.getElementById("user-name").textContent = username;
     showTodoApp();
   } else {
     moveToSignin();
@@ -100,7 +190,9 @@ async function signin() {
     const res = await axios.post(`${API_URL}/signin`, { username, password });
     if (res.data.token) {
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("username", username);
       currentUser = username;
+      document.getElementById("user-name").textContent = username;
       showTodoApp();
     } else {
       alert(res.data.message);
@@ -112,8 +204,11 @@ async function signin() {
 
 function logout() {
   localStorage.removeItem("token");
+  localStorage.removeItem("username");
   currentUser = null;
   document.body.classList.remove("user-logged-in");
+  // Hide user menu
+  document.getElementById("user-menu").style.display = "none";
   moveToSignin();
 }
 
@@ -123,25 +218,87 @@ async function getTodos() {
     const res = await axios.get(`${API_URL}/todos`, {
       headers: { Authorization: token },
     });
-    const list = document.getElementById("todos-list");
-    list.innerHTML = "";
 
-    // Update task count
-    document.getElementById("task-count").textContent = res.data.length;
+    // Store todos in memory for filtering
+    window.todos = res.data.map((todo) => ({
+      ...todo,
+      completed: todo.done,
+      priority: todo.priority || "medium",
+    }));
 
-    if (res.data.length) {
-      res.data.forEach((todo) => {
-        const el = createTodoElement(todo);
-        list.appendChild(el);
-      });
-    } else {
-      list.innerHTML =
-        '<p class="empty-message">No tasks yet. Add one above!</p>';
-    }
+    // Apply current filter
+    filterTodos();
+
+    // Update stats
+    updateStats();
   } catch (err) {
     console.error("Error fetching todos:", err);
-    alert("Error fetching tasks");
+    if (err.response?.status === 401) {
+      // Token expired or invalid
+      logout();
+      alert("Session expired. Please sign in again.");
+    } else {
+      alert("Error fetching tasks");
+    }
   }
+}
+
+function filterTodos() {
+  if (!window.todos) return;
+
+  const list = document.getElementById("todos-list");
+  list.innerHTML = "";
+
+  let filteredTodos = [...window.todos];
+
+  // Apply filters
+  switch (currentFilter) {
+    case "completed":
+      filteredTodos = filteredTodos.filter((todo) => todo.completed);
+      break;
+    case "pending":
+      filteredTodos = filteredTodos.filter((todo) => !todo.completed);
+      break;
+    case "high":
+      filteredTodos = filteredTodos.filter((todo) => todo.priority === "high");
+      break;
+    case "medium":
+      filteredTodos = filteredTodos.filter(
+        (todo) => todo.priority === "medium"
+      );
+      break;
+    case "low":
+      filteredTodos = filteredTodos.filter((todo) => todo.priority === "low");
+      break;
+    // "all" case - no filtering needed
+  }
+
+  if (filteredTodos.length) {
+    filteredTodos.forEach((todo) => {
+      const el = createTodoElement(todo);
+      list.appendChild(el);
+    });
+  } else {
+    // Show empty state
+    list.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">📋</div>
+        <p>No tasks found</p>
+      </div>
+    `;
+  }
+}
+
+function updateStats() {
+  if (!window.todos) return;
+
+  const totalCount = window.todos.length;
+  const completedCount = window.todos.filter((todo) => todo.completed).length;
+  const pendingCount = totalCount - completedCount;
+
+  document.getElementById("total-count").textContent = totalCount;
+  document.getElementById("completed-count").textContent = completedCount;
+  document.getElementById("pending-count").textContent = pendingCount;
 }
 
 async function addTodo() {
@@ -153,7 +310,10 @@ async function addTodo() {
     const token = localStorage.getItem("token");
     await axios.post(
       `${API_URL}/todos`,
-      { title },
+      {
+        title,
+        priority: selectedPriority,
+      },
       {
         headers: { Authorization: token },
       }
@@ -166,16 +326,12 @@ async function addTodo() {
   }
 }
 
-async function updateTodo(id, newTitle) {
+async function updateTodo(id, updates) {
   try {
     const token = localStorage.getItem("token");
-    await axios.put(
-      `${API_URL}/todos/${id}`,
-      { title: newTitle },
-      {
-        headers: { Authorization: token },
-      }
-    );
+    await axios.put(`${API_URL}/todos/${id}`, updates, {
+      headers: { Authorization: token },
+    });
     getTodos();
   } catch (err) {
     console.error("Error updating todo:", err);
@@ -191,18 +347,16 @@ async function deleteTodo(id) {
     await axios.delete(`${API_URL}/todos/${id}`, {
       headers: { Authorization: token },
     });
+
+    // Find and animate the element
     const el = document.querySelector(`.todo-item[data-id='${id}']`);
     if (el) {
       el.classList.add("fade-out");
       setTimeout(() => {
-        el.remove();
-        // Update counter after removing
-        const count = document.querySelectorAll(".todo-item").length;
-        document.getElementById("task-count").textContent = count;
-        if (count === 0) {
-          document.getElementById("todos-list").innerHTML =
-            '<p class="empty-message">No tasks yet. Add one above!</p>';
-        }
+        // Update local data
+        window.todos = window.todos.filter((todo) => todo.id !== id);
+        updateStats();
+        filterTodos();
       }, 300);
     }
   } catch (err) {
@@ -211,7 +365,7 @@ async function deleteTodo(id) {
   }
 }
 
-async function toggleTodoDone(id, done) {
+async function toggleTodoCompleted(id, completed) {
   try {
     const token = localStorage.getItem("token");
     await axios.put(
@@ -221,6 +375,15 @@ async function toggleTodoDone(id, done) {
         headers: { Authorization: token },
       }
     );
+
+    // Update local data first for smoother UX
+    const todoIndex = window.todos.findIndex((todo) => todo.id === id);
+    if (todoIndex !== -1) {
+      window.todos[todoIndex].completed = completed;
+      updateStats();
+    }
+
+    // Then refresh from server to ensure data consistency
     getTodos();
   } catch (err) {
     console.error("Error toggling todo status:", err);
@@ -230,19 +393,28 @@ async function toggleTodoDone(id, done) {
 
 function createTodoElement(todo) {
   const div = document.createElement("div");
-  div.className = "todo-item";
+  div.className = `todo-item priority-${todo.priority || "medium"}`;
   div.setAttribute("data-id", todo.id);
-  if (todo.done) div.classList.add("done");
+  if (todo.completed) div.classList.add("done");
 
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
-  checkbox.checked = todo.done;
-  checkbox.onchange = () => toggleTodoDone(todo.id, !todo.done);
+  checkbox.checked = todo.completed;
+  checkbox.className = "todo-checkbox";
+  checkbox.onchange = () => toggleTodoCompleted(todo.id, checkbox.checked);
 
   const input = document.createElement("input");
   input.type = "text";
   input.value = todo.title;
+  input.className = "todo-text";
   input.readOnly = true;
+
+  const priorityBadge = document.createElement("span");
+  priorityBadge.className = `priority-badge priority-${todo.priority}`;
+  priorityBadge.textContent = `${capitalizeFirstLetter(todo.priority)}`;
+
+  const actionsDiv = document.createElement("div");
+  actionsDiv.className = "todo-item-actions";
 
   const editBtn = document.createElement("button");
   editBtn.textContent = "Edit";
@@ -255,7 +427,7 @@ function createTodoElement(todo) {
     } else {
       const newTitle = input.value.trim();
       if (newTitle) {
-        updateTodo(todo.id, newTitle);
+        updateTodo(todo.id, { title: newTitle });
       } else {
         alert("Task cannot be empty");
         input.value = todo.title;
@@ -270,6 +442,43 @@ function createTodoElement(todo) {
   deleteBtn.className = "delete-btn";
   deleteBtn.onclick = () => deleteTodo(todo.id);
 
-  div.append(checkbox, input, editBtn, deleteBtn);
+  actionsDiv.append(editBtn, deleteBtn);
+  div.append(checkbox, input, priorityBadge, actionsDiv);
   return div;
 }
+
+async function clearAllTasks() {
+  if (!window.todos || window.todos.length === 0) {
+    alert("No tasks to clear");
+    return;
+  }
+
+  if (
+    !confirm(
+      "Are you sure you want to delete all tasks? This action cannot be undone."
+    )
+  ) {
+    return;
+  }
+
+  try {
+    const token = localStorage.getItem("token");
+    await axios.delete(`${API_URL}/todos/all`, {
+      headers: { Authorization: token },
+    });
+
+    window.todos = [];
+    updateStats();
+    filterTodos();
+  } catch (err) {
+    console.error("Error clearing all todos:", err);
+    alert("Failed to clear tasks");
+  }
+}
+
+// Initialize the priority button text
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById(
+    "priority-btn"
+  ).innerHTML = `Medium Priority <span class="dropdown-arrow">▼</span>`;
+});
