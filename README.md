@@ -17,7 +17,7 @@ SmartTick is a cross-platform productivity tool designed to help users efficient
 ## 📸 Screenshots
 
 ### ✅ SmartTick Main Interface
-![SmartTick Interface](screenshots/main_interface.png)
+![SmartTick Interface](pic/main_interface.png)
 
 #### Features Highlighted:
 - Add New Task
@@ -29,6 +29,25 @@ SmartTick is a cross-platform productivity tool designed to help users efficient
 ---
 
 ### 🗄️ Backend Stored Data View (Sample)
-![Backend Data](screenshots/backend.png)
+![Backend Data](pic/backend.png)
 
-Data is stored and retrieved using structured JSON objects via Node.js, ensuring consistent access from both the web and CLI.
+# 📝 To-Do List App
+
+A simple and efficient To-Do List application to help you manage tasks with ease.
+
+---
+
+## 🚀 How to Run the Project
+
+Follow these steps to get the project up and running locally:
+
+```bash
+# 1. Clone the repository
+git clone <url>
+cd <project-folder>
+
+# 2. Install dependencies
+npm install
+
+# 3. Start the backend server
+node back.js
