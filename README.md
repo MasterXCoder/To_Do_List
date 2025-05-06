@@ -1,6 +1,6 @@
-# 🧠 To_Do_List Manager — SmartTick
+# 🧠 To_Do_List Manager — TaskMaster
 
-SmartTick is a cross-platform productivity tool designed to help users efficiently manage their daily tasks using both a responsive web interface and an integrated Command-Line Interface (CLI) within VS Code. It’s built for users who prefer either graphical interaction or terminal-based control, offering versatility and usability in one powerful tool.
+TaskManger is a cross-platform productivity tool designed to help users efficiently manage their daily tasks using both a responsive web interface and an integrated Command-Line Interface (CLI) within VS Code. It’s built for users who prefer either graphical interaction or terminal-based control, offering versatility and usability in one powerful tool.
 
 ---
 
@@ -16,8 +16,8 @@ SmartTick is a cross-platform productivity tool designed to help users efficient
 
 ## 📸 Screenshots
 
-### ✅ SmartTick Main Interface
-![SmartTick Interface](pic/main_interface.png)
+### ✅ TaskManager Main Interface
+![TaskManager Interface](pic/main_interface.png)
 
 #### Features Highlighted:
 - Add New Task
